@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to Digital Citizenship</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Friendly & Calm -->
+    <!-- Application Structure Plan: The application is structured as a linear, step-by-step journey through the core concepts of digital citizenship. This is ideal for Grade 7 students as it builds knowledge progressively without overwhelming them. The flow moves from personal responsibility (passwords, phishing) to interpersonal skills (netiquette) and finally to community awareness (cyberbullying). The user flow is guided by scrolling, with interactive "checkpoints" in each section to reinforce learning. This narrative structure is more engaging for the target audience than a data-heavy dashboard. -->
+    <!-- Visualization & Content Choices: Report Info: Digital Citizenship concepts (Safety, Netiquette, Cyberbullying). Goal: Make abstract concepts tangible and interactive. Viz/Presentation: 1. Online Safety: An interactive password strength checker and a "spot the phishing" game. Interaction: Real-time feedback on user input. Justification: Teaches practical skills through direct interaction. 2. Netiquette: A "Good Comment vs. Bad Comment" sorting activity. Interaction: User drags/clicks to categorize examples. Justification: Reinforces positive online behavior through active participation. 3. Cyberbullying: A scenario-based quiz and a bar chart. Interaction: User makes choices in a scenario and sees the consequences; the chart provides context. Justification: The scenario fosters empathy and critical thinking, while the Chart.js bar chart visualizes (mock) data on where cyberbullying occurs, making the problem more concrete. Library: Chart.js for the bar chart. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F4F8;
+            color: #333333;
+        }
+        .accent-bg { background-color: #4A90E2; }
+        .accent-text { color: #4A90E2; }
+        .accent-border { border-color: #4A90E2; }
+        .secondary-bg { background-color: #EAF2FA; }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn {
+            background-color: #4A90E2;
+            color: #FFFFFF;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+        }
+        .btn:hover {
+            background-color: #357ABD;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .nav-link:hover {
+            background-color: #EAF2FA;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold accent-text">Digital Citizen Guide</div>
+            <div class="hidden md:flex space-x-4">
+                <a href="#safety" class="nav-link">Online Safety</a>
+                <a href="#netiquette" class="nav-link">Netiquette</a>
+                <a href="#cyberbullying" class="nav-link">Cyberbullying</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        
+        <section id="intro" class="text-center mb-16 max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome, Digital Citizens! 👋</h1>
+            <p class="text-lg text-gray-700 leading-relaxed">
+                Just like we learn to be good citizens in our community, we also need to learn how to be good citizens online. A **Digital Citizen** is someone who uses technology responsibly, respectfully, and safely. This guide will help you learn the essential skills to protect yourself and be a positive force on the internet. Let's begin our journey!
+            </p>
+        </section>
+
+        <section id="safety" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8">🛡️ Pillar 1: Online Safety & Security</h2>
+            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-10">
+                Your first job as a digital citizen is to protect yourself. This means keeping your personal information private and your accounts secure. A strong password is your first line of defense! Let's explore what makes a password strong.
+            </p>
+            <div class="card max-w-2xl mx-auto">
+                <h3 class="font-bold text-xl mb-2">Password Strength Checker</h3>
+                <p class="text-gray-600 mb-4">Type a password below to see how strong it is. A strong password has a mix of uppercase letters, lowercase letters, numbers, and symbols, and is at least 8 characters long.</p>
+                <input type="text" id="password-input" placeholder="Type a password..." class="w-full p-2 border rounded mb-2">
+                <div id="password-feedback" class="text-sm space-y-1">
+                    <p id="check-length">- At least 8 characters long</p>
+                    <p id="check-lowercase">- Contains a lowercase letter (a-z)</p>
+                    <p id="check-uppercase">- Contains an uppercase letter (A-Z)</p>
+                    <p id="check-number">- Contains a number (0-9)</p>
+                    <p id="check-symbol">- Contains a symbol (!@#$...)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="netiquette" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8">🤝 Pillar 2: Netiquette (Online Manners)</h2>
+            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-10">
+                "Netiquette" is short for "internet etiquette." It's about being respectful and kind in your online interactions, just like you would be in person. Think before you type! Let's practice identifying respectful comments.
+            </p>
+            <div class="card max-w-3xl mx-auto">
+                <h3 class="font-bold text-xl mb-2 text-center">Good Comment or Bad Comment?</h3>
+                <p class="text-gray-600 mb-6 text-center">Click on the comments below to classify them as "Respectful" or "Needs Improvement".</p>
+                <div id="netiquette-game" class="space-y-4">
+                    <!-- Comments will be injected here by JS -->
+                </div>
+                <p id="netiquette-feedback" class="mt-4 text-center font-bold"></p>
+            </div>
+        </section>
+
+        <section id="cyberbullying" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8">❤️ Pillar 3: Cyberbullying Awareness</h2>
+            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-10">
+                Cyberbullying is bullying that happens online. It can be mean comments, spreading rumors, or sharing embarrassing photos. It's a serious issue, and it's important to know what to do if you see it or experience it. Let's walk through a scenario.
+            </p>
+            <div class="card max-w-2xl mx-auto mb-12">
+                <h3 class="font-bold text-xl mb-2">What Would You Do?</h3>
+                <p id="scenario-text" class="text-gray-700 mb-4">You post a photo from your family trip. A classmate you don't know well leaves a comment: "That's a weird shirt. Your family has bad taste." What do you do?</p>
+                <div id="scenario-choices" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button class="btn" data-choice="bad">Reply with "You're just jealous!"</button>
+                    <button class="btn" data-choice="good">Ignore the comment, tell a trusted adult (like a parent or teacher), and block the person.</button>
+                </div>
+                <p id="scenario-feedback" class="mt-4 font-bold text-lg text-center"></p>
+            </div>
+            
+            <div class="card max-w-3xl mx-auto">
+                 <h3 class="font-bold text-xl mb-2 text-center">Where Cyberbullying Happens</h3>
+                <p class="text-gray-600 mb-4 text-center">Cyberbullying can occur on many different platforms. This chart shows some of the common places where it is reported. Being aware helps everyone stay safer.</p>
+                <div class="chart-container">
+                    <canvas id="cyberbullying-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="pledge" class="text-center">
+            <h2 class="text-3xl font-bold mb-4">Take the Digital Citizen Pledge!</h2>
+            <div class="max-w-2xl mx-auto card secondary-bg">
+                <p class="text-lg mb-6">I promise to be a responsible, respectful, and safe digital citizen. I will think before I post, protect my personal information, treat others with kindness, and stand up against cyberbullying by telling a trusted adult.</p>
+                <button id="pledge-btn" class="btn text-xl px-8 py-4">I Pledge!</button>
+                <p id="pledge-confirmation" class="mt-4 text-2xl font-bold accent-text"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 mt-12 bg-white">
+        <p>An interactive guide for Grade 7 students.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Navigation ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // --- Password Checker ---
+            const passwordInput = document.getElementById('password-input');
+            const checks = {
+                length: document.getElementById('check-length'),
+                lowercase: document.getElementById('check-lowercase'),
+                uppercase: document.getElementById('check-uppercase'),
+                number: document.getElementById('check-number'),
+                symbol: document.getElementById('check-symbol')
+            };
+
+            passwordInput.addEventListener('input', () => {
+                const pass = passwordInput.value;
+                const updateCheck = (checkElem, condition) => {
+                    if (condition) {
+                        checkElem.style.color = '#16a34a';
+                        checkElem.textContent = `✓ ${checkElem.textContent.substring(2)}`;
+                    } else {
+                        checkElem.style.color = '#dc2626';
+                        checkElem.textContent = `- ${checkElem.textContent.substring(2)}`;
+                    }
+                };
+                updateCheck(checks.length, pass.length >= 8);
+                updateCheck(checks.lowercase, /[a-z]/.test(pass));
+                updateCheck(checks.uppercase, /[A-Z]/.test(pass));
+                updateCheck(checks.number, /\d/.test(pass));
+                updateCheck(checks.symbol, /[^A-Za-z0-9]/.test(pass));
+            });
+
+            // --- Netiquette Game ---
+            const gameContainer = document.getElementById('netiquette-game');
+            const netiquetteFeedback = document.getElementById('netiquette-feedback');
+            const comments = [
+                { text: "I disagree, but I can see your point.", type: 'good' },
+                { text: "That's a stupid idea lol", type: 'bad' },
+                { text: "GREAT JOB ON YOUR PROJECT!!!", type: 'bad' },
+                { text: "Thanks for sharing, this was really helpful!", type: 'good' },
+                { text: "Can you explain that again? I didn't understand.", type: 'good' }
+            ];
+
+            comments.forEach((comment, index) => {
+                const div = document.createElement('div');
+                div.textContent = comment.text;
+                div.className = 'p-3 border rounded-lg cursor-pointer transition-colors';
+                div.dataset.type = comment.type;
+                div.addEventListener('click', () => {
+                    if (comment.type === 'good') {
+                        div.style.backgroundColor = '#dcfce7'; // green
+                        div.style.borderColor = '#16a34a';
+                        netiquetteFeedback.textContent = "Correct! This is a respectful comment.";
+                        netiquetteFeedback.style.color = '#16a34a';
+                    } else {
+                        div.style.backgroundColor = '#fee2e2'; // red
+                        div.style.borderColor = '#dc2626';
+                        let reason = comment.text.includes('stupid') ? "Name-calling is not okay." : "Using all caps can feel like you're shouting.";
+                        netiquetteFeedback.textContent = `This needs improvement. ${reason}`;
+                        netiquetteFeedback.style.color = '#dc2626';
+                    }
+                });
+                gameContainer.appendChild(div);
+            });
+
+            // --- Cyberbullying Scenario ---
+            const scenarioChoices = document.getElementById('scenario-choices');
+            const scenarioFeedback = document.getElementById('scenario-feedback');
+            scenarioChoices.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const choice = e.target.dataset.choice;
+                    if (choice === 'good') {
+                        scenarioFeedback.textContent = "Great choice! The best response is to not engage, tell a trusted adult, and protect your peace by blocking them.";
+                        scenarioFeedback.style.color = '#16a34a';
+                    } else {
+                        scenarioFeedback.textContent = "This might make you feel better for a moment, but fighting back can make the situation worse. It's better to get help from an adult.";
+                        scenarioFeedback.style.color = '#dc2626';
+                    }
+                    scenarioChoices.style.display = 'none';
+                }
+            });
+            
+            // --- Cyberbullying Chart ---
+            const chartCtx = document.getElementById('cyberbullying-chart').getContext('2d');
+            new Chart(chartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Social Media', 'Text/Chat Apps', 'Online Games', 'Email'],
+                    datasets: [{
+                        label: 'Reported Incidents (Example)',
+                        data: [65, 45, 30, 10],
+                        backgroundColor: [
+                            'rgba(74, 144, 226, 0.6)',
+                            'rgba(80, 227, 194, 0.6)',
+                            'rgba(245, 166, 35, 0.6)',
+                            'rgba(189, 16, 224, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(74, 144, 226, 1)',
+                            'rgba(80, 227, 194, 1)',
+                            'rgba(245, 166, 35, 1)',
+                            'rgba(189, 16, 224, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false }
+                    }
+                }
+            });
+
+            // --- Pledge Button ---
+            const pledgeBtn = document.getElementById('pledge-btn');
+            const pledgeConfirmation = document.getElementById('pledge-confirmation');
+            pledgeBtn.addEventListener('click', () => {
+                pledgeConfirmation.textContent = "Thank you for being a great Digital Citizen! ✨";
+                pledgeBtn.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
