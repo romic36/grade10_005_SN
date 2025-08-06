@@ -3,297 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Guide to Digital Citizenship</title>
+    <title>Python Modules & Functions: A Quick Reference Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Friendly & Calm -->
-    <!-- Application Structure Plan: The application is structured as a linear, step-by-step journey through the core concepts of digital citizenship. This is ideal for Grade 7 students as it builds knowledge progressively without overwhelming them. The flow moves from personal responsibility (passwords, phishing) to interpersonal skills (netiquette) and finally to community awareness (cyberbullying). The user flow is guided by scrolling, with interactive "checkpoints" in each section to reinforce learning. This narrative structure is more engaging for the target audience than a data-heavy dashboard. -->
-    <!-- Visualization & Content Choices: Report Info: Digital Citizenship concepts (Safety, Netiquette, Cyberbullying). Goal: Make abstract concepts tangible and interactive. Viz/Presentation: 1. Online Safety: An interactive password strength checker and a "spot the phishing" game. Interaction: Real-time feedback on user input. Justification: Teaches practical skills through direct interaction. 2. Netiquette: A "Good Comment vs. Bad Comment" sorting activity. Interaction: User drags/clicks to categorize examples. Justification: Reinforces positive online behavior through active participation. 3. Cyberbullying: A scenario-based quiz and a bar chart. Interaction: User makes choices in a scenario and sees the consequences; the chart provides context. Justification: The scenario fosters empathy and critical thinking, while the Chart.js bar chart visualizes (mock) data on where cyberbullying occurs, making the problem more concrete. Library: Chart.js for the bar chart. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F0F4F8;
-            color: #333333;
+            background-color: #f0f4f8;
+            color: #2d3748;
         }
-        .accent-bg { background-color: #4A90E2; }
-        .accent-text { color: #4A90E2; }
-        .accent-border { border-color: #4A90E2; }
-        .secondary-bg { background-color: #EAF2FA; }
-        .card {
-            background-color: #FFFFFF;
-            border-radius: 0.75rem;
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: transform 0.2s ease-in-out;
         }
-        .card:hover {
-            transform: translateY(-5px);
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
         }
-        .btn {
-            background-color: #4A90E2;
-            color: #FFFFFF;
-            padding: 0.75rem 1.5rem;
+        h1, h2, h3 {
+            color: #2b6cb0;
+            font-weight: 700;
+        }
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #ebf8ff;
+            padding-bottom: 0.5rem;
+        }
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        code {
+            background-color: #e2e8f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 0.875rem;
+        }
+        pre {
+            background-color: #2d3748;
+            color: #a0aec0;
+            padding: 1rem;
             border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            border: none;
+            overflow-x: auto;
+            margin-bottom: 1rem;
         }
-        .btn:hover {
-            background-color: #357ABD;
-        }
-        .chart-container {
-            position: relative;
+        table {
             width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
         }
-        .nav-link {
-            padding: 0.5rem 1rem;
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #ebf8ff;
+            font-weight: 600;
+        }
+        .note {
+            background-color: #fffbeb;
+            border-left: 4px solid #f6ad55;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1.5rem;
+        }
+        .interactive-section {
+            background-color: #f7fafc;
+            border: 1px dashed #cbd5e0;
+            padding: 1.5rem;
             border-radius: 0.5rem;
-            transition: background-color 0.2s;
-            cursor: pointer;
+            margin-top: 1.5rem;
         }
-        .nav-link:hover {
-            background-color: #EAF2FA;
+        .interactive-section input[type="number"],
+        .interactive-section input[type="text"] {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            width: calc(50% - 0.5rem); /* Adjust width for smaller screens */
+            max-width: 150px;
+        }
+        .interactive-section button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem; /* Add margin for stacking on small screens */
+        }
+        .interactive-section button:hover {
+            background-color: #3182ce;
+        }
+        .interactive-section .result {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #2c5282;
+            background-color: #e6fffa;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid #b2f5ea;
+        }
+
+        /* Responsive adjustments for interactive section */
+        @media (min-width: 640px) { /* Small screens and up */
+            .interactive-section input[type="number"],
+            .interactive-section input[type="text"] {
+                width: auto; /* Reset width for larger screens */
+            }
+            .interactive-section button {
+                margin-top: 0; /* Remove top margin for larger screens */
+            }
         }
     </style>
 </head>
 <body class="antialiased">
+    <div class="container">
+        <header class="text-center py-8">
+            <h1 class="text-blue-700">Python Modules & Functions: A Quick Reference Guide</h1>
+            <p class="text-gray-600 text-lg">This guide summarizes the key concepts we discussed about Python modules and functions. Remember these are powerful tools that make coding in Python much easier and more efficient!</p>
+        </header>
 
-    <header class="bg-white shadow-md sticky top-0 z-10">
-        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold accent-text">Digital Citizen Guide</div>
-            <div class="hidden md:flex space-x-4">
-                <a href="#safety" class="nav-link">Online Safety</a>
-                <a href="#netiquette" class="nav-link">Netiquette</a>
-                <a href="#cyberbullying" class="nav-link">Cyberbullying</a>
-            </div>
-        </nav>
-    </header>
+        <main>
+            <section class="card">
+                <h2 class="text-blue-600">1. What are Python Modules?</h2>
+                <p>Imagine you have a huge toolbox, and inside it are smaller, specialized toolboxes, each containing tools for a specific type of job.</p>
+                <ul>
+                    <li><strong>Definition:</strong> A Python module is simply a file containing pre-written Python code, including definitions of functions, classes, and variables. It's like a collection of ready-to-use code.</li>
+                    <li><strong>Purpose:</strong>
+                        <ul>
+                            <li><strong>Reusability:</strong> You don't have to write the same code over and over again. If someone has already written a function to, say, calculate a square root, you can just use it!</li>
+                            <li><strong>Organization:</strong> Modules help keep your code organized by grouping related functions and definitions together.</li>
+                            <li><strong>Efficiency:</strong> Using modules saves you time and reduces the chance of errors, as the code in modules is usually well-tested.</li>
+                        </ul>
+                    </li>
+                    <li><strong>How to Use:</strong> To use a module in your Python program, you need to import it.
+                        <pre><code># To use all tools from a module:
+import module_name
 
-    <main class="container mx-auto px-4 py-8 md:py-12">
-        
-        <section id="intro" class="text-center mb-16 max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome, Digital Citizens! 👋</h1>
-            <p class="text-lg text-gray-700 leading-relaxed">
-                Just like we learn to be good citizens in our community, we also need to learn how to be good citizens online. A **Digital Citizen** is someone who uses technology responsibly, respectfully, and safely. This guide will help you learn the essential skills to protect yourself and be a positive force on the internet. Let's begin our journey!
-            </p>
-        </section>
+# Example:
+import math
+import random
 
-        <section id="safety" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8">🛡️ Pillar 1: Online Safety & Security</h2>
-            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-10">
-                Your first job as a digital citizen is to protect yourself. This means keeping your personal information private and your accounts secure. A strong password is your first line of defense! Let's explore what makes a password strong.
-            </p>
-            <div class="card max-w-2xl mx-auto">
-                <h3 class="font-bold text-xl mb-2">Password Strength Checker</h3>
-                <p class="text-gray-600 mb-4">Type a password below to see how strong it is. A strong password has a mix of uppercase letters, lowercase letters, numbers, and symbols, and is at least 8 characters long.</p>
-                <input type="text" id="password-input" placeholder="Type a password..." class="w-full p-2 border rounded mb-2">
-                <div id="password-feedback" class="text-sm space-y-1">
-                    <p id="check-length">- At least 8 characters long</p>
-                    <p id="check-lowercase">- Contains a lowercase letter (a-z)</p>
-                    <p id="check-uppercase">- Contains an uppercase letter (A-Z)</p>
-                    <p id="check-number">- Contains a number (0-9)</p>
-                    <p id="check-symbol">- Contains a symbol (!@#$...)</p>
+# To use specific tools (functions) from a module:
+from module_name import tool1, tool2
+
+# Example:
+from math import sqrt, pi</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="card">
+                <h2 class="text-blue-600">2. The <code>math</code> Module +-×÷</h2>
+                <p>The <code>math</code> module is your go-to for common mathematical operations.</p>
+                <ul>
+                    <li><strong>Purpose:</strong> Provides access to mathematical functions and constants.</li>
+                    <li><strong>Common Functions/Constants:</strong>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Function/Constant</th>
+                                    <th>Description</th>
+                                    <th>Example Usage</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>math.sqrt(x)</code></td>
+                                    <td>Returns the square root of x.</td>
+                                    <td><code>math.sqrt(25)</code></td>
+                                    <td>5.0</td>
+                                </tr>
+                                <tr>
+                                    <td><code>math.ceil(x)</code></td>
+                                    <td>Rounds x up to the nearest whole number.</td>
+                                    <td><code>math.ceil(4.2)</code></td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td><code>math.floor(x)</code></td>
+                                    <td>Rounds x down to the nearest whole number.</td>
+                                    <td><code>math.floor(4.8)</code></td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td><code>math.pi</code></td>
+                                    <td>The mathematical constant Pi ($\pi$).</td>
+                                    <td><code>2 * math.pi * 5</code></td>
+                                    <td>31.4159...</td>
+                                </tr>
+                                <tr>
+                                    <td><code>math.pow(x, y)</code></td>
+                                    <td>Returns x raised to the power of y.</td>
+                                    <td><code>math.pow(2, 3)</code></td>
+                                    <td>8.0</td>
+                                </tr>
+                                <tr>
+                                    <td><code>math.fabs(x)</code></td>
+                                    <td>Returns the absolute value of x.</td>
+                                    <td><code>math.fabs(-7)</code></td>
+                                    <td>7.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+                <div class="note">
+                    <strong>Remember:</strong> When using functions from an imported module, you put the module name, then a dot (.), then the function name (e.g., <code>math.sqrt()</code>).
                 </div>
-            </div>
-        </section>
 
-        <section id="netiquette" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8">🤝 Pillar 2: Netiquette (Online Manners)</h2>
-            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-10">
-                "Netiquette" is short for "internet etiquette." It's about being respectful and kind in your online interactions, just like you would be in person. Think before you type! Let's practice identifying respectful comments.
-            </p>
-            <div class="card max-w-3xl mx-auto">
-                <h3 class="font-bold text-xl mb-2 text-center">Good Comment or Bad Comment?</h3>
-                <p class="text-gray-600 mb-6 text-center">Click on the comments below to classify them as "Respectful" or "Needs Improvement".</p>
-                <div id="netiquette-game" class="space-y-4">
-                    <!-- Comments will be injected here by JS -->
+                <div class="interactive-section">
+                    <h3>Try it Yourself: Math Module</h3>
+                    <div class="flex flex-wrap items-center mb-2">
+                        <input type="number" id="mathInput1" placeholder="Enter number 1" class="p-2 border rounded-md mb-2 sm:mb-0 mr-2 flex-grow">
+                        <input type="number" id="mathInput2" placeholder="Enter number 2 (for power)" class="p-2 border rounded-md mb-2 sm:mb-0 mr-2 flex-grow">
+                        <button onclick="calculateMath('sqrt')" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0 mr-2">sqrt</button>
+                        <button onclick="calculateMath('ceil')" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0 mr-2">ceil</button>
+                        <button onclick="calculateMath('floor')" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0 mr-2">floor</button>
+                        <button onclick="calculateMath('pow')" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0 mr-2">pow</button>
+                        <button onclick="calculateMath('fabs')" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0">fabs</button>
+                    </div>
+                    <div id="mathResult" class="result">Result:</div>
                 </div>
-                <p id="netiquette-feedback" class="mt-4 text-center font-bold"></p>
-            </div>
-        </section>
+            </section>
 
-        <section id="cyberbullying" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8">❤️ Pillar 3: Cyberbullying Awareness</h2>
-            <p class="text-lg text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-10">
-                Cyberbullying is bullying that happens online. It can be mean comments, spreading rumors, or sharing embarrassing photos. It's a serious issue, and it's important to know what to do if you see it or experience it. Let's walk through a scenario.
-            </p>
-            <div class="card max-w-2xl mx-auto mb-12">
-                <h3 class="font-bold text-xl mb-2">What Would You Do?</h3>
-                <p id="scenario-text" class="text-gray-700 mb-4">You post a photo from your family trip. A classmate you don't know well leaves a comment: "That's a weird shirt. Your family has bad taste." What do you do?</p>
-                <div id="scenario-choices" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button class="btn" data-choice="bad">Reply with "You're just jealous!"</button>
-                    <button class="btn" data-choice="good">Ignore the comment, tell a trusted adult (like a parent or teacher), and block the person.</button>
+            <section class="card">
+                <h2 class="text-blue-600">3. The <code>random</code> Module</h2>
+                <p>The <code>random</code> module is essential when you need to introduce an element of chance or unpredictability into your programs.</p>
+                <ul>
+                    <li><strong>Purpose:</strong> Generates random numbers and makes random selections.</li>
+                    <li><strong>Common Functions:</strong>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Function</th>
+                                    <th>Description</th>
+                                    <th>Example Usage</th>
+                                    <th>Possible Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>random.randint(a, b)</code></td>
+                                    <td>Returns a random integer between a and b (inclusive).</td>
+                                    <td><code>random.randint(1, 6)</code></td>
+                                    <td>1, 2, 3, 4, 5, or 6</td>
+                                </tr>
+                                <tr>
+                                    <td><code>random.random()</code></td>
+                                    <td>Returns a random floating-point number between 0.0 (inclusive) and 1.0 (exclusive).</td>
+                                    <td><code>random.random()</code></td>
+                                    <td>0.7345...</td>
+                                </tr>
+                                <tr>
+                                    <td><code>random.choice(list)</code></td>
+                                    <td>Returns a random item from a given list.</td>
+                                    <td><code>random.choice(["Heads", "Tails"])</code></td>
+                                    <td>"Heads" or "Tails"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                    <li><strong>Applications:</strong> Useful for games (like rolling dice or shuffling cards), simulations, or any situation where you need a random outcome.</li>
+                </ul>
+
+                <div class="interactive-section">
+                    <h3>Try it Yourself: Random Module</h3>
+                    <div class="flex flex-wrap items-center mb-2">
+                        <button onclick="generateRandomInt()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0 mr-2">random.randint(1, 10)</button>
+                        <button onclick="generateRandomFloat()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0 mr-2">random.random()</button>
+                        <input type="text" id="choiceInput" placeholder="Enter comma-separated items (e.g., apple,banana)" class="p-2 border rounded-md mb-2 sm:mb-0 mr-2 flex-grow">
+                        <button onclick="chooseRandomItem()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0">random.choice()</button>
+                    </div>
+                    <div id="randomResult" class="result">Result:</div>
                 </div>
-                <p id="scenario-feedback" class="mt-4 font-bold text-lg text-center"></p>
-            </div>
-            
-            <div class="card max-w-3xl mx-auto">
-                 <h3 class="font-bold text-xl mb-2 text-center">Where Cyberbullying Happens</h3>
-                <p class="text-gray-600 mb-4 text-center">Cyberbullying can occur on many different platforms. This chart shows some of the common places where it is reported. Being aware helps everyone stay safer.</p>
-                <div class="chart-container">
-                    <canvas id="cyberbullying-chart"></canvas>
+            </section>
+
+            <section class="card">
+                <h2 class="text-blue-600">4. What are Python Functions?</h2>
+                <p>Modules are made up of functions!</p>
+                <ul>
+                    <li><strong>Definition:</strong> A function is a block of organized, reusable code that performs a single, specific task.</li>
+                    <li><strong>Why use them?</strong>
+                        <ul>
+                            <li><strong>Modularity:</strong> Breaks down complex problems into smaller, manageable pieces.</li>
+                            <li><strong>Reusability:</strong> Once written, a function can be called multiple times from different parts of your program.</li>
+                            <li><strong>Readability:</strong> Makes your code easier to understand and maintain.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Example of a custom function:</strong>
+                        <pre><code>def greet(name):
+    # This function takes a 'name' as input
+    return f"Hello, {name}!" # It returns a greeting message
+
+# Calling our custom function:
+print(greet("Maria")) # Output: Hello, Maria!</code></pre>
+                    </li>
+                </ul>
+
+                <div class="interactive-section">
+                    <h3>Try it Yourself: Custom Function</h3>
+                    <div class="flex flex-wrap items-center mb-2">
+                        <input type="text" id="nameInput" placeholder="Enter your name" class="p-2 border rounded-md mb-2 sm:mb-0 mr-2 flex-grow">
+                        <button onclick="greetUser()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mb-2 sm:mb-0">Call greet()</button>
+                    </div>
+                    <div id="greetingResult" class="result">Result:</div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="pledge" class="text-center">
-            <h2 class="text-3xl font-bold mb-4">Take the Digital Citizen Pledge!</h2>
-            <div class="max-w-2xl mx-auto card secondary-bg">
-                <p class="text-lg mb-6">I promise to be a responsible, respectful, and safe digital citizen. I will think before I post, protect my personal information, treat others with kindness, and stand up against cyberbullying by telling a trusted adult.</p>
-                <button id="pledge-btn" class="btn text-xl px-8 py-4">I Pledge!</button>
-                <p id="pledge-confirmation" class="mt-4 text-2xl font-bold accent-text"></p>
-            </div>
-        </section>
+            <section class="card">
+                <h2 class="text-blue-600">Key Takeaways</h2>
+                <ul>
+                    <li>Modules are like toolboxes full of pre-written code.</li>
+                    <li>You use the <code>import</code> keyword to bring modules into your program.</li>
+                    <li>The <code>math</code> module helps with calculations.</li>
+                    <li>The <code>random</code> module helps with chance and unpredictability.</li>
+                    <li>Functions (whether from modules or ones you write) are reusable blocks of code that perform specific tasks.</li>
+                </ul>
+                <p class="text-center text-gray-600 mt-4">Keep exploring and practicing! The more you use these tools, the more comfortable you'll become with them.</p>
+            </section>
+        </main>
 
-    </main>
-
-    <footer class="text-center py-6 mt-12 bg-white">
-        <p>An interactive guide for Grade 7 students.</p>
-    </footer>
+        <footer class="text-center py-6 text-gray-500 text-sm">
+            <p>&copy; 2025 Python Learning Guide. All rights reserved.</p>
+        </footer>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Navigation ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
+        // JavaScript for interactive sections
 
-            // --- Password Checker ---
-            const passwordInput = document.getElementById('password-input');
-            const checks = {
-                length: document.getElementById('check-length'),
-                lowercase: document.getElementById('check-lowercase'),
-                uppercase: document.getElementById('check-uppercase'),
-                number: document.getElementById('check-number'),
-                symbol: document.getElementById('check-symbol')
-            };
+        // Math Module Functions
+        function calculateMath(operation) {
+            const input1 = parseFloat(document.getElementById('mathInput1').value);
+            const input2 = parseFloat(document.getElementById('mathInput2').value);
+            const resultDiv = document.getElementById('mathResult');
+            let result;
 
-            passwordInput.addEventListener('input', () => {
-                const pass = passwordInput.value;
-                const updateCheck = (checkElem, condition) => {
-                    if (condition) {
-                        checkElem.style.color = '#16a34a';
-                        checkElem.textContent = `✓ ${checkElem.textContent.substring(2)}`;
+            if (isNaN(input1) && operation !== 'pi') {
+                resultDiv.textContent = "Result: Please enter a valid number for the first input.";
+                return;
+            }
+
+            switch (operation) {
+                case 'sqrt':
+                    if (input1 < 0) {
+                        result = "Cannot calculate square root of a negative number.";
                     } else {
-                        checkElem.style.color = '#dc2626';
-                        checkElem.textContent = `- ${checkElem.textContent.substring(2)}`;
+                        result = Math.sqrt(input1);
                     }
-                };
-                updateCheck(checks.length, pass.length >= 8);
-                updateCheck(checks.lowercase, /[a-z]/.test(pass));
-                updateCheck(checks.uppercase, /[A-Z]/.test(pass));
-                updateCheck(checks.number, /\d/.test(pass));
-                updateCheck(checks.symbol, /[^A-Za-z0-9]/.test(pass));
-            });
-
-            // --- Netiquette Game ---
-            const gameContainer = document.getElementById('netiquette-game');
-            const netiquetteFeedback = document.getElementById('netiquette-feedback');
-            const comments = [
-                { text: "I disagree, but I can see your point.", type: 'good' },
-                { text: "That's a stupid idea lol", type: 'bad' },
-                { text: "GREAT JOB ON YOUR PROJECT!!!", type: 'bad' },
-                { text: "Thanks for sharing, this was really helpful!", type: 'good' },
-                { text: "Can you explain that again? I didn't understand.", type: 'good' }
-            ];
-
-            comments.forEach((comment, index) => {
-                const div = document.createElement('div');
-                div.textContent = comment.text;
-                div.className = 'p-3 border rounded-lg cursor-pointer transition-colors';
-                div.dataset.type = comment.type;
-                div.addEventListener('click', () => {
-                    if (comment.type === 'good') {
-                        div.style.backgroundColor = '#dcfce7'; // green
-                        div.style.borderColor = '#16a34a';
-                        netiquetteFeedback.textContent = "Correct! This is a respectful comment.";
-                        netiquetteFeedback.style.color = '#16a34a';
-                    } else {
-                        div.style.backgroundColor = '#fee2e2'; // red
-                        div.style.borderColor = '#dc2626';
-                        let reason = comment.text.includes('stupid') ? "Name-calling is not okay." : "Using all caps can feel like you're shouting.";
-                        netiquetteFeedback.textContent = `This needs improvement. ${reason}`;
-                        netiquetteFeedback.style.color = '#dc2626';
+                    break;
+                case 'ceil':
+                    result = Math.ceil(input1);
+                    break;
+                case 'floor':
+                    result = Math.floor(input1);
+                    break;
+                case 'pow':
+                    if (isNaN(input2)) {
+                        resultDiv.textContent = "Result: Please enter a valid number for the second input for power.";
+                        return;
                     }
-                });
-                gameContainer.appendChild(div);
-            });
+                    result = Math.pow(input1, input2);
+                    break;
+                case 'fabs':
+                    result = Math.abs(input1);
+                    break;
+                default:
+                    result = "Invalid operation.";
+            }
+            resultDiv.textContent = `Result: ${result}`;
+        }
 
-            // --- Cyberbullying Scenario ---
-            const scenarioChoices = document.getElementById('scenario-choices');
-            const scenarioFeedback = document.getElementById('scenario-feedback');
-            scenarioChoices.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    const choice = e.target.dataset.choice;
-                    if (choice === 'good') {
-                        scenarioFeedback.textContent = "Great choice! The best response is to not engage, tell a trusted adult, and protect your peace by blocking them.";
-                        scenarioFeedback.style.color = '#16a34a';
-                    } else {
-                        scenarioFeedback.textContent = "This might make you feel better for a moment, but fighting back can make the situation worse. It's better to get help from an adult.";
-                        scenarioFeedback.style.color = '#dc2626';
-                    }
-                    scenarioChoices.style.display = 'none';
-                }
-            });
-            
-            // --- Cyberbullying Chart ---
-            const chartCtx = document.getElementById('cyberbullying-chart').getContext('2d');
-            new Chart(chartCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Social Media', 'Text/Chat Apps', 'Online Games', 'Email'],
-                    datasets: [{
-                        label: 'Reported Incidents (Example)',
-                        data: [65, 45, 30, 10],
-                        backgroundColor: [
-                            'rgba(74, 144, 226, 0.6)',
-                            'rgba(80, 227, 194, 0.6)',
-                            'rgba(245, 166, 35, 0.6)',
-                            'rgba(189, 16, 224, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgba(74, 144, 226, 1)',
-                            'rgba(80, 227, 194, 1)',
-                            'rgba(245, 166, 35, 1)',
-                            'rgba(189, 16, 224, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: { display: false },
-                        title: { display: false }
-                    }
-                }
-            });
+        // Random Module Functions
+        function generateRandomInt() {
+            // Simulates random.randint(1, 10)
+            const result = Math.floor(Math.random() * 10) + 1;
+            document.getElementById('randomResult').textContent = `Result: ${result}`;
+        }
 
-            // --- Pledge Button ---
-            const pledgeBtn = document.getElementById('pledge-btn');
-            const pledgeConfirmation = document.getElementById('pledge-confirmation');
-            pledgeBtn.addEventListener('click', () => {
-                pledgeConfirmation.textContent = "Thank you for being a great Digital Citizen! ✨";
-                pledgeBtn.style.display = 'none';
-            });
-        });
+        function generateRandomFloat() {
+            // Simulates random.random()
+            const result = Math.random();
+            document.getElementById('randomResult').textContent = `Result: ${result}`;
+        }
+
+        function chooseRandomItem() {
+            const input = document.getElementById('choiceInput').value;
+            const items = input.split(',').map(item => item.trim()).filter(item => item !== '');
+
+            if (items.length === 0) {
+                document.getElementById('randomResult').textContent = "Result: Please enter comma-separated items.";
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * items.length);
+            const result = items[randomIndex];
+            document.getElementById('randomResult').textContent = `Result: "${result}"`;
+        }
+
+        // Custom Function
+        function greetUser() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name === "") {
+                document.getElementById('greetingResult').textContent = "Result: Please enter your name.";
+                return;
+            }
+            const greeting = `Hello, ${name}!`;
+            document.getElementById('greetingResult').textContent = `Result: ${greeting}`;
+        }
     </script>
 </body>
 </html>
